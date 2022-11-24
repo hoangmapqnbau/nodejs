@@ -1,8 +1,13 @@
+const User = require('../Models/User')
+
 class SitesController {
 
     // [GET] /home
     home(req, res) {
-        res.render('home')
+        User.find({}, function(error, users) {
+            if(!error) {res.json(users); return;}
+            res.status(500).json({ error: 'message' });
+        })
     }
 
     // [GET] /orthers...
