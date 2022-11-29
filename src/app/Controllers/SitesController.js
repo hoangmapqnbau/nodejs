@@ -1,15 +1,20 @@
 const User = require('../Models/User')
+const {loopToObeject , mongooseToObject} = require('../../utils/mongoose')
+
 
 class SitesController {
 
-    // [GET] /home
-    home(req, res) {
-        User.find({}, function(error, users) {
-            if(!error) {res.json(users); return;}
-            res.status(500).json({ error: 'message' });
-        })
-    }
+    // [GET] /
+    home(req, res, next) {
+        User.find({})
+            .then((users) => {
+                res.render('home', {
+                  users: loopToObeject(users)
+                })
+            })
+            .catch(next);
 
+    }
     // [GET] /orthers...
 
     orther(req, res) {

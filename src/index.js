@@ -8,6 +8,11 @@ const db = require('./config/database/index');
 db.Connect();
 
 
+// add Middleware for POST method (req .body)
+app.use(express.urlencoded());
+app.use(express.json());
+
+
 app.use(express.static(path.join(__dirname, 'public')));
 app.engine('handlebars', handlebars());
 app.set('view engine', 'handlebars');
