@@ -1,0 +1,29 @@
+<div class="mt-4 container-fluid ">
+    <h3>Tạo User</h3>
+    <form method="POST" action="/user/store">
+    <div class="mb-3 form-group">
+        <label for="fullName" class="form-label">Email address</label>
+        <input type="text" class="form-control" id="fullName" placeholder="Nhập tên..." name="name">
+    </div>
+      <div class="mb-3 form-group">
+        <label for="description" class="form-label">Mô tả</label>
+        <input type="text" class="form-control" id="description" placeholder="Nhập mô tả..." name="description">
+    </div>
+    
+      <div class="mb-3 form-group">
+        <label for="image" class="form-label">Link ảnh</label>
+        <input type="text" class="form-control" id="image"  name="image">
+    </div>
+    
+      <div class="mb-3 form-group">
+        <label for="slugId" class="form-label">Nhập slugId</label>
+        <input type="text" class="form-control" id="slug" name="slug">
+    </div>
+
+      <div class="mb-3 form-group">
+        <label for="video" class="form-label">Nhập video</label>
+        <input type="text" class="form-control" id="video" name="videoId">
+    </div>
+    <button class="btn btn-dark" type="submit">Thêm vào</button>
+    </form>
+</div>

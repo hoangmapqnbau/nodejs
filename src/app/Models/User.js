@@ -5,8 +5,11 @@ const User = new Schema({
     name:  {type: String, maxlength: 255 },
     description: String,
     image: String,
-    createAt: { type: Date, default: Date.now },
-    updateAt: { type: Date, default: Date.now }
+    slug: String,
+    videoId: String,
+    
+}, {
+    timestamps: true,
 });
 
 module.exports = mongoose.model('User', User);
