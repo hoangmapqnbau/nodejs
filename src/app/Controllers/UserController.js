@@ -26,9 +26,19 @@ class UserController {
     }
 
     // [GET] /user/:id/edit
-    edit(req, res, next){
-        res.json("fuck")
-    }
+        edit(req, res, next){
+           User.findById(req.params.id)
+           .then((x) => {res.render('user/modify', {x: mongooseToObject(x)}); })
+        }
+
+        // [PUT] /user/:id 
+        save(req, res, next){
+            console.log(req.body);
+            User.updateOne({ _id: req.params.id}, req.body)
+            .then( () => res.redirect('/me/stored'))
+            .catch(next)
+        }
+
 }
 
 module.exports = new UserController;

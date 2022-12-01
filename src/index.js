@@ -3,6 +3,7 @@ const app = express();
 const path = require('path');
 const handlebars = require('express-handlebars');
 const route = require('./routes/index.route');
+const methodOverride = require('method-override')
 
 const db = require('./config/database/index');
 db.Connect();
@@ -11,6 +12,7 @@ db.Connect();
 // add Middleware for POST method (req .body)
 app.use(express.urlencoded());
 app.use(express.json());
+app.use(methodOverride('_method'))
 
 
 app.use(express.static(path.join(__dirname, 'public')));
