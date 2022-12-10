@@ -5,13 +5,26 @@ const { loopToObeject, mongooseToObject } = require('../../utils/mongoose');
 class MeController {
     // [GET] /me 
     show(req, res, next) {
-        User.find({})
-            .then((users) => {
-                res.render('user/me', {
-                    users: loopToObeject(users),
-                })
+        Promise.all([User.find({}), User.countDocumentsDeleted()])
+        .then(([users, numberOfDeleted]) => {
+            res.render('user/me',{
+                numberOfDeleted,
+                users: loopToObeject(users),
             })
-            .catch(next);
+        })
+        .catch(next)
+    }
+
+    // [GET /me/trash
+
+    trash(req, res, next){
+        User.findDeleted({})
+        .then((users) => {
+            res.render('user/trash',{
+                users: loopToObeject(users),
+            })
+        })
+        .catch(next);
     }
 
 }

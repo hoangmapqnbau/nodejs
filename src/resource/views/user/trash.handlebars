@@ -1,0 +1,143 @@
+<form action="/user/handle-form-actions-trash" method="POST" class="mt-4 me-store">
+  <div class="header-store">
+    <a class="btn btn-prev btn-link " href="/me/stored"><i class="fa fa-arrow-left"></i> Quay lại</a>
+    <h2 class="mb-4">My trash</h2>
+  </div>
+  <div class="mt-4  mb-4 d-flex align-items-center">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" id="checkAll">
+      <label class="form-check-label" for="checkAll">
+        Chọn tất cả
+      </label>
+    </div>
+    <div class="checkbox-selected-all-option">
+      <select class="form-select form-select-sm" aria-label=".form-select-sm example" required
+        aria-required="You must have value!!" name="actions">
+        <option disabled selected value="">-- Chọn hành động --</option>
+        <option value="restore">Restore</option>
+        <option value="destroy">Destroy</option>
+      </select>
+    </div>
+    <button type="submit" class="btn btn-primary btn-sm disabled" id="save-btn">Thực hiện</button>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col"></th>
+        <th scope="col">#</th>
+        <th scope="col">
+          Name
+          <a href="?"><i class="bi bi-filter-circle"></i></a>
+          </th>
+        <th scope="col">Description</th>
+        <th scope="col">Deleted At At</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each users}}
+      <tr>
+        <td>
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" name="userIds[]" value="{{this._id}}">
+          </div>
+        </td>
+        <th scope="row">{{@index}} </th>
+        <td>{{this.name}}</td>
+        <td>{{this.description}}</td>
+        <td>{{this.deletedAt}}</td>
+        <td>
+          <a href="" class="btn btn-link btn-restore" data-id="{{this._id}}">Restore</a>
+          <a class="btn btn-link" id="getElementDel" data-bs-toggle="modal" data-id="{{this._id}}"
+            data-bs-target="#deleteModal">
+            Destroy
+          </a>
+        </td>
+      </tr>
+      {{else}}
+      <tr>
+        <td colspan="5" class="text-center">Không có Data nào trong đây!!!.</td>
+      
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</form>
+
+
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Bạn có chắc chắn muốn xoá ???🤔</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xoá khoá học này?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Huỷ</button>
+        <button type="submit" class="btn btn-danger deleteBTN">Xoá</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<form name="delete-form" method="POST"></form>
+<form name="restore-form" method="POST"></form>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const formDel = document.forms['delete-form'];
+    const deleteModal = document.getElementById('deleteModal');
+    const restoreForm = document.forms['restore-form']
+    deleteModal.addEventListener('show.bs.modal', function (event) {
+      const dataID = event.relatedTarget.getAttribute('data-id');
+
+      const btnDelete = document.getElementsByClassName('deleteBTN')[0];
+      btnDelete.onclick = () => {
+        formDel.action = `/user/${dataID}/delete?_method=DELETE`;
+        formDel.submit();
+      }
+    });
+    const restoreBtn = $('.btn-restore');
+    restoreBtn.click((event) => {
+      event.preventDefault();
+      const dataIDneedRestore = event.target.getAttribute('data-id');
+      restoreForm.action = `/user/${dataIDneedRestore}/restore?_method=PATCH`;
+      restoreForm.submit();
+    });
+  });
+
+
+  // Handle trash selected.
+
+
+  const checkAll = document.getElementById('checkAll');
+  const checkBox = document.querySelectorAll('input[name="userIds[]"]');
+  const checkArr = [...checkBox];
+  const submitBtn = document.getElementById("save-btn");
+  const formContainer = document.forms["container-form"];
+  checkAll.onchange = () => {
+    checkArr.forEach(x => {
+      x.checked = checkAll.checked;
+      renderSubmitButton();
+    });
+  };
+
+  for (let c of checkArr) {
+    c.onchange = () => {
+      !c.checked ? checkAll.checked = false : "";
+      const hasCheck = checkArr.filter((x) => x.checked);
+      hasCheck.length == checkArr.length ? checkAll.checked = true : "";
+      renderSubmitButton();
+    };
+  };
+
+  const renderSubmitButton = (event) => {
+    const hasCheck = checkArr.filter((x) => x.checked);
+    hasCheck.length > 0 ? submitBtn.classList.remove("disabled") : submitBtn.classList.add("disabled");
+  }
+  
+
+</script>

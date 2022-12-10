@@ -1,3 +1,12 @@
+/* .bi::before {
+    display: inline-block;
+    content: "";
+    vertical-align: -.125em;
+    background-image: url("data:image/svg+xml,<svg viewBox='0 0 16 16' fill='%23333' xmlns='http://www.w3.org/2000/svg'><path fill-rule='evenodd' d='M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z' clip-rule='evenodd'/></svg>");
+    background-repeat: no-repeat;
+    background-size: 1rem 1rem;
+  } */
+
 .card-users-item{
     margin-top: 16px;
     padding: 4px;
@@ -30,3 +39,59 @@ a.btn.btn-link  {
 .login-logout .logout:hover  {
     color: tomato;
 }
+
+button, a {
+    border-radius: 0px!important;
+}
+
+.me-store .header-store {
+    display: inline-block;
+}
+
+.me-store .header-store.header-trash-icon {
+    float: right;
+}
+
+.fa.fa-trash-o{
+    padding-top: 6px;   
+}
+.fa.fa-arrow-left  {
+    padding-bottom: 6px;
+}
+
+.fa.fa-trash-o::before{
+    font-size: 20px;
+    color: #273746;
+}
+
+.me-store .header-store.header-trash-icon .btn.btn-trash {
+    width: 50px;
+    height: 32px;
+    background-color: #85929E;
+    border: .5px solid #D7DBDD;
+    border-radius: 4px !important;
+    text-align: center;
+    padding: unset;
+    margin: unset;
+}
+
+.me-store .header-store.header-trash-icon:hover .btn.btn-trash {
+    background-color: #6495ED;
+    border: 1px solid #2E86C1;
+}
+
+
+.btn.btn-prev.btn-link {
+    border: .8px solid #2E86C1;
+    text-decoration: none;
+    height: 28px;
+    padding: 2px 12px 0 12px;
+}
+
+.checkbox-selected-all-option{
+    width: 200px;
+    padding: 0 8px 0 8px;
+}
+
+
+
