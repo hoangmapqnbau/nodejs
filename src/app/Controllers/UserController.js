@@ -33,12 +33,63 @@ class UserController {
 
         // [PUT] /user/:id 
         save(req, res, next){
-            console.log(req.body);
             User.updateOne({ _id: req.params.id}, req.body)
             .then( () => res.redirect('/me/stored'))
             .catch(next)
         }
 
-}
+        // [DELETE] /user/:id
+        remove(req, res, next){
+            User.delete({ _id: req.params.id})
+            .then(()  => res.redirect('back'))
+            .catch(next);
+        }
 
+        // [PATCH] /user/:id/restore
+        restore(req, res, next){
+            User.restore({ _id: req.params.id})
+            .then(()  => res.redirect('back'))
+            .catch(next);
+        }
+
+        // [DELETE hard] /user/:id/delete
+        delete(req, res, next){
+            User.deleteOne({ _id: req.params.id})
+            .then(()  => res.redirect('back'))
+            .catch(next);
+        }
+
+        // [POST] /user/handle-form-actions
+    handleFormAction(req, res, next) {
+        switch (req.body.actions) {
+            case "delete":
+                User.delete({ _id: { $in: req.body.userIds } })
+                    .then(() => res.redirect("back"))
+                    .catch(next)
+                break;
+            default:
+                res.json({ message: "Actions is not defined" })
+                break;
+        }
+    }
+    
+    // [POST] /user/handle-form-actions-trash  
+    handleFormActionTrash(req, res, next) {
+        switch (req.body.actions) {
+            case "restore":
+                User.restore({ _id: { $in: req.body.userIds } })
+                    .then(() => res.redirect("back"))
+                    .catch(next)
+                break;
+            case "destroy":
+                User.deleteMany({ _id: { $in: req.body.userIds} })
+                .then(() => res.redirect("back"))
+                .catch(next)
+                break;
+            default:
+                res.json({ message: "Actions is not defined" });
+                break
+        }
+    }
+}
 module.exports = new UserController;
