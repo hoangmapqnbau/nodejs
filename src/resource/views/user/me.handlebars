@@ -26,7 +26,10 @@
       <tr>
         <th scope="col"></th>
         <th scope="col">#</th>
-        <th scope="col">Name</th>
+        <th scope="col">
+          Name
+          {{{sortable 'name' _sort}}}
+          </th>
         <th scope="col">Description</th>
         <th scope="col">Create At</th>
         <th scope="col">Actions</th>
@@ -40,7 +43,7 @@
             <input class="form-check-input" type="checkbox" name="userIds[]" value="{{this._id}}">
           </div>
         </td>
-        <th scope="row">{{@index}}</th>
+        <th scope="row">{{sum @index 1}}</th>
         <td>{{this.name}}</td>
         <td>{{this.description}}</td>
         <td>{{this.createdAt}}</td>

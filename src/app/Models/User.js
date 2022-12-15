@@ -12,6 +12,18 @@ const User = new Schema({
     timestamps: true,
 });
 
+User.query.sortable = function(req){
+    if(req.query.hasOwnProperty('_sort')){
+        let isValidType = ['desc', 'asc'].includes(req.query.type);
+       return this.sort({
+    
+            [req.query.column]: isValidType ? req.query.type : "asc"
+        })
+    }  
+        return this
+    
+}
+
 User.plugin(mongoDelete, {overrideMethods: true, deletedAt: true});
 
 module.exports = mongoose.model('User', User);
